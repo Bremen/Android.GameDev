@@ -14,6 +14,7 @@ public class MenuScreen extends Base2DScreen{
     private Vector2 touch;
     private Vector2 pos;
     private Vector2 v;
+    private Vector2 buf;
     private int k;
 
     @Override
@@ -25,6 +26,7 @@ public class MenuScreen extends Base2DScreen{
 
         touch = new Vector2();
         pos = new Vector2(0,0);
+        buf = new Vector2(0,0);
         v = new Vector2(0, 0);
         k = 1;
     }
@@ -39,12 +41,10 @@ public class MenuScreen extends Base2DScreen{
         batch.end();
         pos.add(v);
 
-        float distance2 = touch.cpy().sub(pos).len2();
+        buf.set(touch);
+        float distance2 = buf.sub(pos).len2();
         if (distance2 < v.len2()){
-            v.setLength2(distance2);
-        }
-
-        if (distance2 < 1e-6){
+            pos.set(touch);
             v.setZero();
         }
     }

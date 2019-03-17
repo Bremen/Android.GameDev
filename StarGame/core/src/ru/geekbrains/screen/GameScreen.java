@@ -5,10 +5,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 
 import ru.geekbrains.base.Base2DScreen;
 import ru.geekbrains.math.Rect;
 import ru.geekbrains.sprite.Background;
+import ru.geekbrains.sprite.SpaceShip;
 import ru.geekbrains.sprite.Star;
 
 public class GameScreen extends Base2DScreen {
@@ -19,6 +21,7 @@ public class GameScreen extends Base2DScreen {
     private Background background;
     private TextureAtlas atlas;
     private Star starList[];
+    private SpaceShip ship;
 
     @Override
     public void show() {
@@ -26,11 +29,12 @@ public class GameScreen extends Base2DScreen {
 
         img_background = new Texture("textures/bg.png");
         background = new Background(new TextureRegion(img_background));
-        atlas = new TextureAtlas("textures/menuAtlas.tpack");
+        atlas = new TextureAtlas("textures/mainAtlas.tpack");
         starList = new Star[STAR_COUNT];
         for (int i = 0; i < STAR_COUNT; i++) {
             starList[i] = new Star(atlas);
         }
+        ship = new SpaceShip(atlas);
     }
 
     @Override
@@ -55,6 +59,7 @@ public class GameScreen extends Base2DScreen {
         for (Star star : starList) {
             star.update(delta);
         }
+        ship.update(delta);
     }
 
     private void draw() {
@@ -68,11 +73,24 @@ public class GameScreen extends Base2DScreen {
             star.draw(batch);
         }
         batch.setColor(1f, 1f, 1f, 1f);
+        ship.draw(batch);
         batch.end();
     }
 
     @Override
     public void dispose() {
         super.dispose();
+    }
+
+    @Override
+    public boolean touchDown(Vector2 touch, int pointer) {
+        ship.touchDown(touch, pointer);
+        return false;
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        ship.keyDown(keycode);
+        return false;
     }
 }

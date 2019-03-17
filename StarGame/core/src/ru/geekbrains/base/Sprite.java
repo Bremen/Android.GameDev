@@ -11,11 +11,15 @@ public class Sprite extends Rect {
     private float angle;
     private float scale = 1f;
     private TextureRegion[] regions;
-    private int frame;
+    private int frame = 0;
 
     public Sprite(TextureRegion region) {
         this.regions = new TextureRegion[1];
         this.regions[0] = region;
+    }
+
+    public Sprite(TextureRegion region, int tileWidth, int tileHeight) {
+        this.regions = region.split(tileWidth, tileHeight)[0];
     }
 
     public void setHeightProportion(float height){

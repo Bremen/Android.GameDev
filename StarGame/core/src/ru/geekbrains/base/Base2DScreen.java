@@ -50,11 +50,13 @@ public abstract class Base2DScreen implements Screen, InputProcessor {
         screenBounds.setBottom(0);
 
         float aspect = width / (float) height;
-        worldBounds.setHeight(100f);
-        worldBounds.setWidth(100f * aspect);
+        worldBounds.setHeight(1f);
+        worldBounds.setWidth(1f * aspect);
         MatrixUtils.calcTransitionMatrix(worldToGl, worldBounds, glBounds);
         batch.setProjectionMatrix(worldToGl);
         MatrixUtils.calcTransitionMatrix(screenToWorld, screenBounds, worldBounds);
+
+        resize(worldBounds);
     }
 
     public void resize(Rect worldBounds) {

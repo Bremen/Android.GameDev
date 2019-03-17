@@ -104,4 +104,12 @@ public class Rect {
     public String toString() {
         return "Rectangle: pos" + pos + " size(" + getWidth() + ", " + getHeight() + ")";
     }
+
+    public boolean touchDown(Vector2 touch, int pointer){
+        return false;
+    }
+
+    public boolean touchUp(Vector2 touch, int pointer){
+        return false;
+    }
 }

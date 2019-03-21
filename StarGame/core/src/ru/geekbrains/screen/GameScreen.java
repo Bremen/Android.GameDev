@@ -15,7 +15,7 @@ import ru.geekbrains.sprite.Star;
 
 public class GameScreen extends Base2DScreen {
 
-    private static final int STAR_COUNT = 256;
+    private static final int STAR_COUNT = 64;
 
     private Texture img_background;
     private Background background;
@@ -45,6 +45,8 @@ public class GameScreen extends Base2DScreen {
         for (Star star : starList) {
             star.resize(worldBounds);
         }
+
+        ship.resize(worldBounds);
     }
 
     @Override
@@ -89,8 +91,20 @@ public class GameScreen extends Base2DScreen {
     }
 
     @Override
+    public boolean touchUp(Vector2 touch, int pointer) {
+        ship.touchUp(touch, pointer);
+        return false;
+    }
+
+    @Override
     public boolean keyDown(int keycode) {
         ship.keyDown(keycode);
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        ship.keyUp(keycode);
         return false;
     }
 }

@@ -1,12 +1,12 @@
 package ru.geekbrains.sprite;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-import ru.geekbrains.base.Sprite;
 import ru.geekbrains.math.Rect;
-import ru.geekbrains.utils.Regions;
+import ru.geekbrains.pool.BulletPool;
 
 /*
 Необходимо реализовать настраиваемый класс для вражеского корабля.
@@ -23,36 +23,42 @@ import ru.geekbrains.utils.Regions;
 (тема следующего вебинара)
  */
 
-public class EnemyShip extends Sprite {
-    private Vector2 v;
-    private int health;
-    private int damage;
-    private Vector2 bullet_v0;
-    private Rect worldBounds;
+public class EnemyShip extends Ship {
 
-    public EnemyShip() {
-        v = new Vector2();
-        bullet_v0 = new Vector2();
+    private enum State{DESCENT, FIGHT};
+    private State state;
+    private Vector2 v0 = new Vector2();
+    private Vector2 descentV = new Vector2(0, -0.15f);
+
+    public EnemyShip(BulletPool bulletPool, Sound shootSound, Rect worldBounds) {
+        this.bulletPool = bulletPool;
+        this.shootSound = shootSound;
+        this.worldBounds = worldBounds;
     }
 
     public void set(
-            int health,
-            TextureRegion region,
-            Vector2 pos0,
+            TextureRegion[] regions,
             Vector2 v0,
-            Vector2 bullet_v0,
+            TextureRegion bulletRegion,
+            float bulletHeight,
+            float bulletVY,
+            int damage,
+            float reloadInterval,
             float height,
-            Rect worldBounds,
-            int damage
+            int hp
     ) {
-        this.health = health;
-        this.regions = Regions.split(region, 1, 2, 2);
-        this.pos.set(pos0);
-        this.bullet_v0.set(bullet_v0);
-        this.v.set(v0);
-        setHeightProportion(height);
-        this.worldBounds = worldBounds;
+        this.regions = regions;
+        this.v0.set(v0);
+        this.bulletRegion = bulletRegion;
+        this.bulletHeight = bulletHeight;
+        this.bulletV.set(0, bulletVY);
         this.damage = damage;
+        this.reloadInterval = reloadInterval;
+        this.health = hp;
+        setHeightProportion(height);
+        reloadTimer = reloadInterval;
+        this.v.set(descentV);
+        state = State.DESCENT;
     }
 
     @Override
@@ -62,38 +68,29 @@ public class EnemyShip extends Sprite {
     }
 
     public void update(float delta) {
-        pos.mulAdd(v, delta);
-        if (getRight() > worldBounds.getRight()) {
-            setRight(worldBounds.getRight());
-            stop();
-        }
-        if (getLeft() < worldBounds.getLeft()) {
-            setLeft(worldBounds.getLeft());
-            stop();
+        super.update(delta);
+        switch (state) {
+            case DESCENT:
+                if (getTop() <= worldBounds.getTop()) {
+                    v.set(v0);
+                    state = State.FIGHT;
+                }
+                break;
+            case FIGHT:
+                reloadTimer += delta;
+                if (reloadTimer >= reloadInterval) {
+                    reloadTimer = 0f;
+                    shoot();
+                }
+                if (getBottom() <= worldBounds.getBottom()) {
+                    this.destroy();
+                }
+                break;
         }
     }
 
     @Override
     public void draw(SpriteBatch batch) {
         super.draw(batch);
-    }
-
-    private void moveRight(){
-        v.set(v);
-    }
-
-    private void moveLeft(){
-        v.set(v).rotate(180);
-    }
-
-    private void moveDown(){
-        v.set(v).rotate(90);
-    }
-
-    private void stop() {
-        v.setZero();
-    }
-
-    public void shoot() {
     }
 }

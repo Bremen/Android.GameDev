@@ -19,7 +19,7 @@ public abstract class Base2DScreen implements Screen, InputProcessor {
     private Matrix3 screenToWorld;
 
     private Rect screenBounds; // границы области рисования в пикселях
-    private Rect worldBounds; // границы проекции мировых координат
+    protected Rect worldBounds; // границы проекции мировых координат
     private Rect glBounds; // квадрат OpenGL
 
     private Vector2 touch;

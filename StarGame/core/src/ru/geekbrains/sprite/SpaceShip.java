@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import ru.geekbrains.math.Rect;
 import ru.geekbrains.pool.BulletPool;
+import ru.geekbrains.pool.ExplosionPool;
 
 public class SpaceShip extends Ship {
 
@@ -20,10 +21,11 @@ public class SpaceShip extends Ship {
 
     private Vector2 v0 = new Vector2(0.5f, 0f);
 
-    public SpaceShip(TextureAtlas atlas, BulletPool bulletPool, Sound shootSound) {
+    public SpaceShip(TextureAtlas atlas, BulletPool bulletPool, ExplosionPool explosionPool, Sound shootSound) {
         super(atlas.findRegion("main_ship"), 1, 2, 2);
         setHeightProportion(0.15f);
         this.bulletPool = bulletPool;
+        this.explosionPool = explosionPool;
         this.bulletRegion = atlas.findRegion("bulletMainShip");
         this.bulletHeight = 0.01f;
         this.bulletV.set(0, 0.5f);
@@ -54,6 +56,15 @@ public class SpaceShip extends Ship {
             setLeft(worldBounds.getLeft());
             stop();
         }
+    }
+
+    public  boolean isBulletCollision(Rect bullet) {
+        return !(   bullet.getRight() < getLeft()
+                ||  bullet.getLeft() > getRight()
+                ||  bullet.getBottom() > pos.y
+                ||  bullet.getTop() < bullet.getBottom()
+        );
+
     }
 
     public boolean touchDown(Vector2 touch, int pointer) {

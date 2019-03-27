@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import ru.geekbrains.math.Rect;
 import ru.geekbrains.pool.BulletPool;
+import ru.geekbrains.pool.ExplosionPool;
 
 /*
 Необходимо реализовать настраиваемый класс для вражеского корабля.
@@ -30,8 +31,9 @@ public class EnemyShip extends Ship {
     private Vector2 v0 = new Vector2();
     private Vector2 descentV = new Vector2(0, -0.15f);
 
-    public EnemyShip(BulletPool bulletPool, Sound shootSound, Rect worldBounds) {
+    public EnemyShip(BulletPool bulletPool, ExplosionPool explosionPool, Sound shootSound, Rect worldBounds) {
         this.bulletPool = bulletPool;
+        this.explosionPool = explosionPool;
         this.shootSound = shootSound;
         this.worldBounds = worldBounds;
     }
@@ -92,5 +94,14 @@ public class EnemyShip extends Ship {
     @Override
     public void draw(SpriteBatch batch) {
         super.draw(batch);
+    }
+
+    public  boolean isBulletCollision(Rect bullet) {
+        return !(   bullet.getRight() < getLeft()
+                ||  bullet.getLeft() > getRight()
+                ||  bullet.getBottom() > getTop()
+                ||  bullet.getTop() < pos.y
+                );
+
     }
 }

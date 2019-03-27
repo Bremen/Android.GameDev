@@ -17,31 +17,26 @@ public class EnemiesEmitter {
     private static final float ENEMY_SMALL_RELOAD_INTERVAL = 3f;
     private static final int ENEMY_SMALL_HP = 1;
     private static final float ENEMY_SMALL_CHANCE = 0.5f;
-
     private TextureRegion[] enemySmallRegion;
     private Vector2 enemySmallV = new Vector2(0f, -0.15f);
 
-
-    private static final float ENEMY_MIDDLE_HEIGHT = 0.13f;
-    private static final float ENEMY_MIDDLE_BULLET_HEIGHT = 0.025f;
+    private static final float ENEMY_MIDDLE_HEIGHT = 0.12f;
+    private static final float ENEMY_MIDDLE_BULLET_HEIGHT = 0.02f;
     private static final float ENEMY_MIDDLE_BULLET_VY = -0.2f;
     private static final int ENEMY_MIDDLE_DAMAGE = 3;
     private static final float ENEMY_MIDDLE_RELOAD_INTERVAL = 4f;
     private static final int ENEMY_MIDDLE_HP = 3;
     private static final float ENEMY_MIDDLE_CHANCE = 0.35f;
-
     private TextureRegion[] enemyMiddleRegion;
     private Vector2 enemyMiddleV = new Vector2(0f, -0.1f);
 
-
-    private static final float ENEMY_BIG_HEIGHT = 0.17f;
-    private static final float ENEMY_BIG_BULLET_HEIGHT = 0.05f;
+    private static final float ENEMY_BIG_HEIGHT = 0.15f;
+    private static final float ENEMY_BIG_BULLET_HEIGHT = 0.04f;
     private static final float ENEMY_BIG_BULLET_VY = -0.1f;
     private static final int ENEMY_BIG_DAMAGE = 9;
     private static final float ENEMY_BIG_RELOAD_INTERVAL = 7f;
     private static final int ENEMY_BIG_HP = 30;
     private static final float ENEMY_BIG_CHANCE = 0.15f;
-
     private TextureRegion[] enemyBigRegion;
     private Vector2 enemyBigV = new Vector2(0f, -0.03f);
     
@@ -91,11 +86,11 @@ public class EnemiesEmitter {
         if (choice <= ENEMY_SMALL_CHANCE){
             type = EnemyType.SMALL;
         }
-        else if (choice >= ENEMY_SMALL_CHANCE + ENEMY_MIDDLE_CHANCE) {
-            type = EnemyType.BIG;
+        else if (choice <= ENEMY_MIDDLE_CHANCE + ENEMY_SMALL_CHANCE) {
+            type = EnemyType.MIDDLE;
         }
         else {
-            type = EnemyType.MIDDLE;
+            type = EnemyType.BIG;
         }
 
         return type;

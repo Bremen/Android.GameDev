@@ -12,6 +12,7 @@ import ru.geekbrains.pool.ExplosionPool;
 public class SpaceShip extends Ship {
 
     private static final int INVALID_POINTER = -1;
+    private static final int HP = 100;
 
     private boolean isPressedRight;
     private boolean isPressedLeft;
@@ -30,10 +31,24 @@ public class SpaceShip extends Ship {
         this.bulletHeight = 0.01f;
         this.bulletV.set(0, 0.5f);
         this.damage = 1;
-        this.health = 10;
+
         this.reloadInterval = 0.2f;
         this.shootSound = shootSound;
+        this.health = HP;
     }
+
+    public void startNewGame(Rect worldBounds) {
+        this.health = HP;
+        pos.x = worldBounds.pos.x;
+        flushDestroy();
+
+        stop();
+        isPressedLeft = false;
+        isPressedRight = false;
+        leftPointer = INVALID_POINTER;
+        rightPointer = INVALID_POINTER;
+    }
+
 
     @Override
     public void resize(Rect worldBounds) {
@@ -152,5 +167,9 @@ public class SpaceShip extends Ship {
 
     private void stop() {
         v.setZero();
+    }
+
+    public Vector2 getV() {
+        return v;
     }
 }

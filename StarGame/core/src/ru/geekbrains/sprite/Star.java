@@ -10,11 +10,11 @@ import ru.geekbrains.math.Rnd;
 
 public class Star extends Sprite {
 
-    private Vector2 v;
+    protected Vector2 v;
     private Rect worldBounds;
-    private float starHeight;
-    private float starHeightMax;
-    private float blinkSizeStep;
+    protected float starHeight;
+    protected float starHeightMax;
+    protected float blinkSizeStep;
     private Color color;
 
     public Star(TextureAtlas atlas) {
@@ -50,7 +50,7 @@ public class Star extends Sprite {
         pos.set(posX,posY);
     }
 
-    private void checkAndHandleBounds(){
+    protected void checkAndHandleBounds(){
         if(getLeft() < worldBounds.getLeft()){
             setLeft(worldBounds.getRight());
         }

@@ -37,6 +37,7 @@ public class Ship extends Sprite {
     public Ship() {
     }
 
+
     @Override
     public void resize(Rect worldBounds) {
         this.worldBounds = worldBounds;

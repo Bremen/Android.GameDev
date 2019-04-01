@@ -51,6 +51,12 @@ public class EnemiesEmitter {
 
     private EnemyPool enemyPool;
 
+    private int level;
+
+    public int getLevel() {
+        return level;
+    }
+
     public EnemiesEmitter(TextureAtlas atlas, Rect worldBounds, EnemyPool enemyPool) {
         this.worldBounds = worldBounds;
         this.enemyPool = enemyPool;        
@@ -66,7 +72,8 @@ public class EnemiesEmitter {
         this.enemyBigRegion = Regions.split(textureRegion2, 1, 2, 2);
     }
 
-    public void generate(float delta) {
+    public void generate(float delta, int frags) {
+        level = frags / 10 + 1;
         generateTimer += delta;
         if (generateTimer >= generateInterval) {
             generateTimer = 0f;
@@ -104,9 +111,9 @@ public class EnemiesEmitter {
                         enemySmallV,
                         bulletRegion,
                         ENEMY_SMALL_BULLET_HEIGHT,
-                        ENEMY_SMALL_BULLET_VY,
-                        ENEMY_SMALL_DAMAGE,
-                        ENEMY_SMALL_RELOAD_INTERVAL,
+                        ENEMY_SMALL_BULLET_VY * level,
+                        ENEMY_SMALL_DAMAGE  * level,
+                        ENEMY_SMALL_RELOAD_INTERVAL * level,
                         ENEMY_SMALL_HEIGHT,
                         ENEMY_SMALL_HP
                 );
@@ -117,9 +124,9 @@ public class EnemiesEmitter {
                         enemyMiddleV,
                         bulletRegion,
                         ENEMY_MIDDLE_BULLET_HEIGHT,
-                        ENEMY_MIDDLE_BULLET_VY,
+                        ENEMY_MIDDLE_BULLET_VY  * level,
                         ENEMY_MIDDLE_DAMAGE,
-                        ENEMY_MIDDLE_RELOAD_INTERVAL,
+                        ENEMY_MIDDLE_RELOAD_INTERVAL * level,
                         ENEMY_MIDDLE_HEIGHT,
                         ENEMY_MIDDLE_HP
                 );
@@ -130,9 +137,9 @@ public class EnemiesEmitter {
                         enemyBigV,
                         bulletRegion,
                         ENEMY_BIG_BULLET_HEIGHT,
-                        ENEMY_BIG_BULLET_VY,
+                        ENEMY_BIG_BULLET_VY  * level,
                         ENEMY_BIG_DAMAGE,
-                        ENEMY_BIG_RELOAD_INTERVAL,
+                        ENEMY_BIG_RELOAD_INTERVAL  * level,
                         ENEMY_BIG_HEIGHT,
                         ENEMY_BIG_HP
                 );

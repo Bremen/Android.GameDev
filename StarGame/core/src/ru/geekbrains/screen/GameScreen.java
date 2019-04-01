@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 
@@ -14,7 +15,6 @@ import java.util.List;
 
 import ru.geekbrains.base.Base2DScreen;
 import ru.geekbrains.base.Font;
-import ru.geekbrains.base.Sprite;
 import ru.geekbrains.math.Rect;
 import ru.geekbrains.pool.BulletPool;
 import ru.geekbrains.pool.EnemyPool;
@@ -22,13 +22,13 @@ import ru.geekbrains.pool.ExplosionPool;
 import ru.geekbrains.sprite.Background;
 import ru.geekbrains.sprite.Bullet;
 import ru.geekbrains.sprite.ButtonNewGame;
-import ru.geekbrains.sprite.ButtonPlay;
 import ru.geekbrains.sprite.EnemyShip;
 import ru.geekbrains.sprite.MessageGameOver;
 import ru.geekbrains.sprite.SpaceShip;
 import ru.geekbrains.sprite.Star;
 import ru.geekbrains.sprite.TrackingStar;
 import ru.geekbrains.utils.EnemiesEmitter;
+import ru.geekbrains.utils.MainShipHealthBar;
 
 public class GameScreen extends Base2DScreen {
 
@@ -37,6 +37,7 @@ public class GameScreen extends Base2DScreen {
     private static final String HP = "HP: ";
     private static final String LEVEL = "Level: ";
     private static final int STAR_COUNT = 64;
+    private MainShipHealthBar healthBar = new MainShipHealthBar();
 
     private enum State {PLAYING, PAUSE, GAME_OVER}
 
@@ -105,6 +106,8 @@ public class GameScreen extends Base2DScreen {
         sbLevel = new StringBuilder();
 
         startNewGame();
+
+
     }
 
     @Override
@@ -125,6 +128,8 @@ public class GameScreen extends Base2DScreen {
                 labelGameOver.resize(worldBounds);
                 break;
         }
+
+        healthBar.resize(batch);
     }
 
     @Override
@@ -237,15 +242,17 @@ public class GameScreen extends Base2DScreen {
         explosionPool.drawActiveSprites(batch);
         printInfo();
         batch.end();
+
+        healthBar.draw(ship.getHealth() / (float) ship.getHPmax());
     }
 
     public void printInfo() {
         sbFrags.setLength(0);
         sbHP.setLength(0);
         sbLevel.setLength(0);
-        font.draw(batch, sbFrags.append(FRAGS).append(frags), worldBounds.getLeft(), worldBounds.getTop());
-        font.draw(batch, sbHP.append(HP).append(ship.getHealth()), worldBounds.pos.x, worldBounds.getTop(), Align.center);
-        font.draw(batch, sbLevel.append(LEVEL).append(enemiesEmitter.getLevel()), worldBounds.getRight(), worldBounds.getTop(), Align.right);
+        font.draw(batch, sbFrags.append(FRAGS).append(frags), worldBounds.getLeft() + 0.005f, worldBounds.getTop() - 0.005f);
+        font.draw(batch, sbHP.append(HP).append(ship.getHealth()), worldBounds.pos.x, worldBounds.getTop() - 0.02f, Align.center);
+        font.draw(batch, sbLevel.append(LEVEL).append(enemiesEmitter.getLevel()), worldBounds.getRight() - 0.005f, worldBounds.getTop() - 0.005f, Align.right);
     }
 
     @Override
@@ -259,6 +266,7 @@ public class GameScreen extends Base2DScreen {
         bulletSound.dispose();
         explosionPool.dispose();
         font.dispose();
+        healthBar.dispose();
         super.dispose();
     }
 

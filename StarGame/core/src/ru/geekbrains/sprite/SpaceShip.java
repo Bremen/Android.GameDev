@@ -172,4 +172,8 @@ public class SpaceShip extends Ship {
     public Vector2 getV() {
         return v;
     }
+
+    public int getHPmax() {
+        return HP;
+    }
 }

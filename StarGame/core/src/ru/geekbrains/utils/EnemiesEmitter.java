@@ -14,7 +14,7 @@ public class EnemiesEmitter {
     private static final float ENEMY_SMALL_BULLET_HEIGHT = 0.01f;
     private static final float ENEMY_SMALL_BULLET_VY = -0.3f;
     private static final int ENEMY_SMALL_DAMAGE = 1;
-    private static final float ENEMY_SMALL_RELOAD_INTERVAL = 3f;
+    private static final float ENEMY_SMALL_RELOAD_INTERVAL = 2f;
     private static final int ENEMY_SMALL_HP = 1;
     private static final float ENEMY_SMALL_CHANCE = 0.5f;
     private TextureRegion[] enemySmallRegion;
@@ -24,7 +24,7 @@ public class EnemiesEmitter {
     private static final float ENEMY_MIDDLE_BULLET_HEIGHT = 0.02f;
     private static final float ENEMY_MIDDLE_BULLET_VY = -0.2f;
     private static final int ENEMY_MIDDLE_DAMAGE = 3;
-    private static final float ENEMY_MIDDLE_RELOAD_INTERVAL = 4f;
+    private static final float ENEMY_MIDDLE_RELOAD_INTERVAL = 1.5f;
     private static final int ENEMY_MIDDLE_HP = 3;
     private static final float ENEMY_MIDDLE_CHANCE = 0.35f;
     private TextureRegion[] enemyMiddleRegion;
@@ -34,7 +34,7 @@ public class EnemiesEmitter {
     private static final float ENEMY_BIG_BULLET_HEIGHT = 0.04f;
     private static final float ENEMY_BIG_BULLET_VY = -0.1f;
     private static final int ENEMY_BIG_DAMAGE = 9;
-    private static final float ENEMY_BIG_RELOAD_INTERVAL = 7f;
+    private static final float ENEMY_BIG_RELOAD_INTERVAL = 1f;
     private static final int ENEMY_BIG_HP = 30;
     private static final float ENEMY_BIG_CHANCE = 0.15f;
     private TextureRegion[] enemyBigRegion;
@@ -113,7 +113,7 @@ public class EnemiesEmitter {
                         ENEMY_SMALL_BULLET_HEIGHT,
                         ENEMY_SMALL_BULLET_VY * level,
                         ENEMY_SMALL_DAMAGE  * level,
-                        ENEMY_SMALL_RELOAD_INTERVAL * level,
+                        ENEMY_SMALL_RELOAD_INTERVAL / (float) level,
                         ENEMY_SMALL_HEIGHT,
                         ENEMY_SMALL_HP
                 );
@@ -126,7 +126,7 @@ public class EnemiesEmitter {
                         ENEMY_MIDDLE_BULLET_HEIGHT,
                         ENEMY_MIDDLE_BULLET_VY  * level,
                         ENEMY_MIDDLE_DAMAGE,
-                        ENEMY_MIDDLE_RELOAD_INTERVAL * level,
+                        ENEMY_MIDDLE_RELOAD_INTERVAL / (float) level,
                         ENEMY_MIDDLE_HEIGHT,
                         ENEMY_MIDDLE_HP
                 );
@@ -139,7 +139,7 @@ public class EnemiesEmitter {
                         ENEMY_BIG_BULLET_HEIGHT,
                         ENEMY_BIG_BULLET_VY  * level,
                         ENEMY_BIG_DAMAGE,
-                        ENEMY_BIG_RELOAD_INTERVAL  * level,
+                        ENEMY_BIG_RELOAD_INTERVAL  / (float) level,
                         ENEMY_BIG_HEIGHT,
                         ENEMY_BIG_HP
                 );
